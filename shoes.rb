@@ -102,6 +102,37 @@ Shoes.app(:title => 'FLOOR-Y', :debug => true) do
   @threads = []
   stack :margin => 20, :width => 500 do
     subtitle "FLOOR-Y"
+    
+    stack do
+      flow do
+        caption("P line")
+        @p_line = edit_line("")
+      end
+      flow do
+        caption("D line")
+        @d_line = edit_line("")
+      end
+      flow do
+        caption("P wall")
+        @p_wall = edit_line("")
+      end
+      flow do
+        caption("D wall")
+        @d_wall = edit_line("")
+      end
+      flow do
+        caption("Tejp cal")
+        @tejp_cal = edit_line("")
+      end
+      flow do
+        caption("Speed")
+        @speed = edit_line(@robot.speed)
+      end
+      flow do
+        caption("Direction")
+        @direction = edit_line()
+      end
+    end    
 
     flow :width => 300 do
       stack :width => 100 do
@@ -139,9 +170,7 @@ Shoes.app(:title => 'FLOOR-Y', :debug => true) do
           end
         end 
       end
-      
-      @speed  = edit_line(@robot.speed)
-      
+                  
       @forward = button "Forward" do
         forward
       end
