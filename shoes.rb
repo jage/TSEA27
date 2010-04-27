@@ -3,39 +3,9 @@ require 'drb/observer'
 
 URI="druby://127.0.0.1:8787"
 
-@threads = []
-@threads << Thread.new do
-  fork do
-    require 'logger'
-    
-    log_file = File.open('shoes.log', File::WRONLY | File::APPEND | File::CREAT)
-    log = Logger.new(log_file)
-    log.info("Forked")
-    
-    begin      
-      require 'drb'
-      require 'drb/observer'
-      require 'rubygems'
-      log.info("Loaded rubygems")
-      require 'serialport'
-      log.info("Loaded gems")
-      
-      $SAFE = 1 # disable eval() and friends
-      
-      if DRb.start_service(URI, SerialPort.new("/tmp/interceptty", 115200))
-        log.info("Started DRb service")
-      end
-      
-      DRb.thread.join
-    rescue => error
-      log.warn(error)
-    end
-  end
-  Process.wait
-end
-
 Shoes.show_log
 Shoes.app(:title => 'FLOOR-Y', :debug => true) do
+  @threads = []
   class Robot
     attr_accessor :p_line, :d_line, :p_wall, :d_wall, :tejp_cal, :speed, :direction
     
@@ -83,6 +53,17 @@ Shoes.app(:title => 'FLOOR-Y', :debug => true) do
     log("Sent #{@robot.direction}")
   end
   
+  def get_status
+    ascii_command = ["R"]
+    
+    ascii_command.each do |c|
+      @sp.write(c)
+      @sp.flush
+    end
+      
+    log("Get status")
+  end
+  
   def forward
     @robot.direction = :forward
     send_command
@@ -118,7 +99,6 @@ Shoes.app(:title => 'FLOOR-Y', :debug => true) do
     send_command
   end
   
-  
   @threads = []
   stack :margin => 20, :width => 500 do
     subtitle "FLOOR-Y"
@@ -132,11 +112,7 @@ Shoes.app(:title => 'FLOOR-Y', :debug => true) do
         # @in_port  = edit_line("/dev/com4")
         @com_port = edit_line("/tmp/interceptty")
         @connect = button "Connect to device" do
-          unless @sp
-            # @threads << Thread.new do
-            #   system('./serialproxy.rb')
-            # end
-                        
+          unless @sp                        
             log("Connecting to #{@com_port.text} ... ")
             
             # @connect.name = "Disconnect"
@@ -147,6 +123,13 @@ Shoes.app(:title => 'FLOOR-Y', :debug => true) do
             @threads << Thread.new do
               while(c = @sp.getc) do
                 log(c.chr, '')
+              end
+            end
+            
+            @threads << Thread.new do
+              while(true) do
+                sleep 1
+                get_status
               end
             end
             
@@ -206,9 +189,7 @@ Shoes.app(:title => 'FLOOR-Y', :debug => true) do
       when :shift_right : rotate_right
       when :shift_left : rotate_left
       end
-    end
-    
-    
+    end   
   end
 end 
 @threads.join
