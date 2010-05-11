@@ -1,4 +1,4 @@
-function readbytes(obj, ~)
+function readbytes(obj, event)
     global fig;
     global incoming_bytes;
     global incoming_index;
