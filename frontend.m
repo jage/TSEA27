@@ -78,8 +78,7 @@ function connectbutton_Callback(hObject, eventdata, handles)
 % hObject    handle to connectbutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-disp 'Trying to connect'
-bluetooth
+connect_to_bluetooth
 
 function sendconfigbutton_Callback(hObject, eventdata, handles)
 sendconfig
@@ -90,14 +89,13 @@ function disconnectbutton_Callback(hObject, eventdata, handles)
 % hObject    handle to disconnectbutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global connected;
-connected = 0;
+disconnect_from_bluetooth
 
 
 
 function p_line_edit_Callback(hObject, eventdata, handles)
 % hObject    handle to p_line_edit (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
+% eventdata  reserved - to be defined in a future version of MATLAB3
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hints: get(hObject,'String') returns contents of p_line_edit as text
