@@ -1,10 +1,12 @@
-global serialport;
+function disconnect
+    global serialport;
 
-% Stäng
-fclose(serialport)
+    % Stäng
+    fclose(serialport)
 
-% Ta bort alla öppna portar
-delete(instrfind)
+    % Ta bort alla öppna portar
+    delete(instrfind)
 
-% Ta bort serialport
-clear serialport
+    % Ta bort serialport
+    clear serialport
+end

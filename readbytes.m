@@ -51,7 +51,7 @@ function readbytes(obj, event)
             handles = guihandles(fig);
             
             % Uppdatera status bar
-            set(handles.latest_bytes_text, 'String', num2str(incoming_bytes));
+            set(handles.status_text, 'String', sprintf('Recieved: %s', num2str(incoming_bytes)));
 
             % Uppdatera GUI
             set(handles.tejp_sensor_text, 'String', num2str(incoming_bytes(2)));

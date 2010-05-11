@@ -9,6 +9,7 @@ global recieve_in_progress;
 global got_ack;
 global sending_config;
 global recieve_count;
+global fig;
 
 recieve_count = 1;
 sending_config = 0;
@@ -30,9 +31,23 @@ serialport.Timeout = 5;
 
 % Försök öppna seriellport
 try
+    handles = guihandles(fig);
+    set(handles.connectbutton, 'Visible', 'off');
+    set(handles.disconnectbutton, 'Visible', 'on');
+    set(handles.status_text, 'String', 'Connecting ...');
+    guidata(fig, handles);
+    
+    pause(2);
+
     fopen(serialport);
 catch
-    sprintf('Connect error: %s', lasterr);
+    handles = guihandles(fig);
+    set(handles.connectbutton, 'Visible', 'on');
+    set(handles.disconnectbutton, 'Visible', 'off');
+    set(handles.status_text, 'String', 'Connection error ...');
+    guidata(fig, handles);
+    
+    fprintf('Connect error: %s\n', lasterr);
 end
 
 connected = 1;
