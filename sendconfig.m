@@ -32,6 +32,5 @@ function sendconfig
         end % for
     catch SEND_ERROR
         fprintf('Send error: %s\n', SEND_ERROR);
-        retries = retries + 1;
     end % try
 end
