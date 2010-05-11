@@ -29,32 +29,31 @@ function readbytes(obj, event)
         recieve_in_progress = 0;
     end % if
     
-    if(recieve_in_progress && incoming_index >= 16)
-        history(history_index, 1:18) = transpose(incoming_bytes);
-        history_index = history_index + 1;
-        recieve_in_progress = 0;        
-            
-        % Hämta handles
-        handles = guihandles(fig);
-
-        % Uppdatera status bar
-        set(handles.status_text, 'String', sprintf('Recieved: %s', num2str(incoming_bytes)));
-
-        % Uppdatera GUI
-        set(handles.tejp_sensor_text, 'String', num2str(incoming_bytes(2)));
-        set(handles.dist_front_sensor_text, 'String', num2str(incoming_bytes(3)));
-        set(handles.dist_right_sensor_text, 'String', num2str(incoming_bytes(4)));
-        set(handles.dist_left_sensor_text, 'String', num2str(incoming_bytes(5)));
-        set(handles.rgb_sensor_text, 'String', num2str(incoming_bytes(6)));
-        set(handles.gyro_sensor_text, 'String', num2str(incoming_bytes(7)));
-
-        % Spara handles
-        guidata(fig, handles);
-    end % if
-    
-    % Nollställ inkommande kö, oavsett om vi fått startbit eller inte
     if(incoming_index >= 16)
-        %disp 'Reseting'
+        if(recieve_in_progress && incoming_index >= 16)
+            history(history_index, 1:18) = transpose(incoming_bytes);
+            history_index = history_index + 1;
+            recieve_in_progress = 0;
+
+            % Hämta handles
+            handles = guihandles(fig);
+
+            % Uppdatera status bar
+            set(handles.status_text, 'String', sprintf('Recieved: %s', num2str(incoming_bytes)));
+
+            % Uppdatera GUI
+            set(handles.tejp_sensor_text, 'String', num2str(incoming_bytes(2)));
+            set(handles.dist_front_sensor_text, 'String', num2str(incoming_bytes(3)));
+            set(handles.dist_right_sensor_text, 'String', num2str(incoming_bytes(4)));
+            set(handles.dist_left_sensor_text, 'String', num2str(incoming_bytes(5)));
+            set(handles.rgb_sensor_text, 'String', num2str(incoming_bytes(6)));
+            set(handles.gyro_sensor_text, 'String', num2str(incoming_bytes(7)));
+
+            % Spara handles
+            guidata(fig, handles);
+        end % if
+
+        % Nollställ inkommande kö, oavsett om vi fått startbit eller inte
         % Nollställ
         incoming_bytes = zeros(1,18);
         incoming_index = 1;

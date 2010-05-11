@@ -20,6 +20,9 @@ function connect_to_bluetooth
         set(handles.status_text, 'String', 'Connecting ...');
         guidata(fig, handles);
         
+        % Wait for GUI to update before locking it
+        pause(0.0001);
+        
         fopen(serialport);
         
         % För varje byte som kommer, kör readbytes
@@ -36,6 +39,6 @@ function connect_to_bluetooth
         set(handles.status_text, 'String', 'Connection error ...');
         guidata(fig, handles);
 
-        fprintf('Connect error: %s\n', CONNECT_ERROR);
+        fprintf('Connect error: %s\n', CONNECT_ERROR.message);
     end
 end
