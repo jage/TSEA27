@@ -22,7 +22,7 @@ function varargout = frontend(varargin)
 
 % Edit the above text to modify the response to help frontend
 
-% Last Modified by GUIDE v2.5 11-May-2010 14:25:41
+% Last Modified by GUIDE v2.5 11-May-2010 19:48:00
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -395,3 +395,17 @@ function gyro_start_edit_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes on button press in save_config_button.
+function save_config_button_Callback(hObject, eventdata, handles)
+% hObject    handle to save_config_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in load_config_button.
+function load_config_button_Callback(hObject, eventdata, handles)
+% hObject    handle to load_config_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
