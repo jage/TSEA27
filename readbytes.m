@@ -30,7 +30,7 @@ function readbytes(obj, event)
     end % if
     
     if(incoming_index >= 16)
-        if(recieve_in_progress && incoming_index >= 16)
+        if(recieve_in_progress)
             history(history_index, 1:18) = transpose(incoming_bytes);
             history_index = history_index + 1;
             recieve_in_progress = 0;
@@ -54,7 +54,6 @@ function readbytes(obj, event)
         end % if
 
         % Nollställ inkommande kö, oavsett om vi fått startbit eller inte
-        % Nollställ
         incoming_bytes = zeros(1,18);
         incoming_index = 1;
         recieve_in_progress = 0;
