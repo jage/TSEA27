@@ -29,13 +29,13 @@ function connect_to_bluetooth
         set(handles.status_text, 'String', 'Connected!');
         guidata(fig, handles);
 
-    catch
+    catch CONNECT_ERROR
         handles = guihandles(fig);
         set(handles.connectbutton, 'Visible', 'on');
         set(handles.disconnectbutton, 'Visible', 'off');
         set(handles.status_text, 'String', 'Connection error ...');
         guidata(fig, handles);
 
-        fprintf('Connect error: %s\n', lasterr);
+        fprintf('Connect error: %s\n', CONNECT_ERROR);
     end
 end
