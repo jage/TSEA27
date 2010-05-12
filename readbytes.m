@@ -7,6 +7,12 @@ function readbytes(obj, event)
     global recieve_in_progress;
     global got_ack;
     
+    global lb;
+    global lh_front;
+    global lh_right;
+    global lh_left;
+    global lh_tejp;
+    global lh_gyro;
     %new_byte = fread(obj, obj.BytesAvailable, 'uint8');
     new_byte = fread(obj, 1, 'uint8');
         
@@ -34,6 +40,17 @@ function readbytes(obj, event)
             history(history_index, 1:18) = transpose(incoming_bytes);
             history_index = history_index + 1;
             recieve_in_progress = 0;
+            
+            set(lb, 'xdata', [history_index, history_index]);
+
+            % Skala om tejp så den syns i spannet 0 till 200
+            set(lh_tejp, 'ydata', (history(:, 2) + 10) .* 10, 'userdata', history_index);
+            set(lh_front, 'ydata', history(:, 3), 'userdata', history_index);
+            set(lh_right, 'ydata', history(:, 4), 'userdata', history_index);
+            set(lh_left, 'ydata', history(:, 5), 'userdata', history_index);
+            set(lh_gyro, 'ydata', history(:, 7), 'userdata', history_index);
+
+
 
             % Hämta handles
             handles = guihandles(fig);
