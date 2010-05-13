@@ -22,7 +22,7 @@ function varargout = frontend(varargin)
 
 % Edit the above text to modify the response to help frontend
 
-% Last Modified by GUIDE v2.5 07-May-2010 16:28:04
+% Last Modified by GUIDE v2.5 14-May-2010 01:06:11
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -420,3 +420,32 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
+% --- Executes on button press in save_config_button.
+function save_config_button_Callback(hObject, eventdata, handles)
+% hObject    handle to save_config_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+save_config
+
+% --- Executes on button press in load_config_button.
+function load_config_button_Callback(hObject, eventdata, handles)
+% hObject    handle to load_config_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+load_config
+
+
+% --- Executes on button press in manual_control_button.
+function manual_control_button_Callback(hObject, eventdata, handles)
+% hObject    handle to manual_control_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+manual_control
+
+
+% --- Executes on button press in realtime_plot_button.
+function realtime_plot_button_Callback(hObject, eventdata, handles)
+% hObject    handle to realtime_plot_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+realtime_plot

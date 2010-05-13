@@ -41,14 +41,16 @@ function readbytes(obj, event)
             history_index = history_index + 1;
             recieve_in_progress = 0;
             
-            set(lb, 'xdata', [history_index, history_index]);
+            if(realtime_plot)
+                set(lb, 'xdata', [history_index, history_index]);
 
-            % Skala om tejp så den syns i spannet 0 till 200
-            set(lh_tejp, 'ydata', (history(:, 2) + 10) .* 10, 'userdata', history_index);
-            set(lh_front, 'ydata', history(:, 3), 'userdata', history_index);
-            set(lh_right, 'ydata', history(:, 4), 'userdata', history_index);
-            set(lh_left, 'ydata', history(:, 5), 'userdata', history_index);
-            set(lh_gyro, 'ydata', history(:, 7), 'userdata', history_index);
+                % Skala om tejp så den syns i spannet 0 till 200
+                set(lh_tejp, 'ydata', (history(:, 2) + 10) .* 10, 'userdata', history_index);
+                set(lh_front, 'ydata', history(:, 3), 'userdata', history_index);
+                set(lh_right, 'ydata', history(:, 4), 'userdata', history_index);
+                set(lh_left, 'ydata', history(:, 5), 'userdata', history_index);
+                set(lh_gyro, 'ydata', history(:, 7), 'userdata', history_index);
+            end % if
 
 
 

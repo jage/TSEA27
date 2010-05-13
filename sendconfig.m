@@ -31,6 +31,6 @@ function sendconfig
             pause(0.001);
         end % for
     catch SEND_ERROR
-        fprintf('Send error: %s\n', SEND_ERROR);
+        fprintf('Send error: %s\n', SEND_ERROR.message);
     end % try
 end
