@@ -6,7 +6,7 @@ function realtime_plot
     global lh_gyro;
     global lh_tejp;
     global lb;
-    global realtime_plot;
+    global realtime_plot_enabled;
     
     figure(2);
 
@@ -47,5 +47,5 @@ function realtime_plot
     lb=line([inf,inf],[0,200]);
     shg;
     
-    realtime_plot = true;
+    realtime_plot_enabled = true;
 end

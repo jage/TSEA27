@@ -18,6 +18,8 @@ global recieve_in_progress;
 global got_ack;
 global sending_config;
 global recieve_count;
+global previous_key;
+global realtime_plot_enabled;
 
 incoming_bytes = zeros(1,18);
 incoming_index = 1;
@@ -25,6 +27,8 @@ recieve_count = 1;
 sending_config = 0;
 recieve_in_progress = 0;
 got_ack = 1;
+previous_key = 'false';
+realtime_plot_enabled = false;
 
 history = zeros(10000, 18);
 history_index = 1;

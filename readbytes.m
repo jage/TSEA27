@@ -6,7 +6,7 @@ function readbytes(obj, event)
     global history_index;
     global recieve_in_progress;
     global got_ack;
-    
+    global realtime_plot_enabled;
     global lb;
     global lh_front;
     global lh_right;
@@ -31,6 +31,9 @@ function readbytes(obj, event)
     elseif(char(new_byte(1)) == 'A')
         disp 'Got an A'
         got_ack = 1;
+            
+        
+        disp(toc);
     else
         recieve_in_progress = 0;
     end % if
@@ -41,7 +44,7 @@ function readbytes(obj, event)
             history_index = history_index + 1;
             recieve_in_progress = 0;
             
-            if(realtime_plot)
+            if(realtime_plot_enabled)
                 set(lb, 'xdata', [history_index, history_index]);
 
                 % Skala om tejp så den syns i spannet 0 till 200

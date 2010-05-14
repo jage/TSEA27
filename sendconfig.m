@@ -19,18 +19,23 @@ function sendconfig
     data_to_send(9) = str2double(get(handles.min_speed_edit, 'String'));
     data_to_send(10) = 'B';
     
+    disp('Start send');
+    tic
     try
         i = 1;
         while i <= 10
-            if got_ack || 1 < toc
+            %if got_ack || 1 < toc
                 fwrite(serialport, data_to_send(i));
-                got_ack = 0;
+            %    got_ack = 0;
                 i = i + 1;
-                tic;
-            end % if
-            pause(0.001);
+            %    tic;
+            %end % if
+            pause(0.0001);
         end % for
     catch SEND_ERROR
         fprintf('Send error: %s\n', SEND_ERROR.message);
     end % try
+    disp(toc);
+
+    disp(data_to_send);
 end
