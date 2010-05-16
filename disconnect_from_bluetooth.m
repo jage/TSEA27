@@ -5,7 +5,7 @@ function disconnect_from_bluetooth
     global fig;
     
     handles = guihandles(fig);
-    set(handles.status_text, 'String', 'Trying to disconnect ...');
+    set(handles.status_text, 'String', 'Försöker koppla från ...');
     guidata(fig, handles);
     
     % Wait for GUI to update
@@ -30,6 +30,6 @@ function disconnect_from_bluetooth
     handles = guihandles(fig);
     set(handles.connectbutton, 'Visible', 'on');
     set(handles.disconnectbutton, 'Visible', 'off');
-    set(handles.status_text, 'String', 'Disconnected!');
+    set(handles.status_text, 'String', 'Frånkopplad!');
     guidata(fig, handles);
 end

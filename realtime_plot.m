@@ -8,7 +8,8 @@ function realtime_plot
     global lb;
     global realtime_plot_enabled;
     
-    figure(2);
+    plot_figure = figure(2);
+    set(plot_figure, 'CloseRequestFcn', @close_realtime_plot);
 
     % Förbered plotten
     axes('xlim',[1,length(history)],'ylim',[0,200]);

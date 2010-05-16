@@ -1,7 +1,6 @@
 function sendconfig
     global fig;
     global serialport;
-    global got_ack;
     
     handles = guihandles(fig);
     
@@ -23,19 +22,19 @@ function sendconfig
     tic
     try
         i = 1;
-        while i <= 10
-            %if got_ack || 1 < toc
-                fwrite(serialport, data_to_send(i));
-            %    got_ack = 0;
-                i = i + 1;
-            %    tic;
-            %end % if
-            pause(0.0001);
+        while i <= length(data_to_send)
+            fwrite(serialport, data_to_send(i));
+            i = i + 1;
         end % for
     catch SEND_ERROR
         fprintf('Send error: %s\n', SEND_ERROR.message);
     end % try
     disp(toc);
 
+    handles = guihandles(fig);
+    set(handles.status_text, 'String', sprintf('Skickade: %s', num2str(data_to_send)));
+    guidata(fig, handles);
+            
     disp(data_to_send);
+
 end

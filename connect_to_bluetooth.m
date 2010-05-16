@@ -22,28 +22,41 @@ function connect_to_bluetooth
         handles = guihandles(fig);
         set(handles.connectbutton, 'Visible', 'off');
         set(handles.disconnectbutton, 'Visible', 'on');
-        set(handles.status_text, 'String', 'Connecting ...');
+        set(handles.status_text, 'String', 'Ansluter ...');
         guidata(fig, handles);
         
-        % Wait for GUI to update before locking it
-        pause(0.0001);
-        
+        % Vänta så att GUI:et hinner uppdatera sig, innan vi låser det
+        pause(0.01);
+        % Ansluter till porten
         fopen(serialport);
+    catch CONNECT_ERROR
+        handles = guihandles(fig);
+        set(handles.status_text, 'String', 'Anslutningsfel, försöker igen ...');
+        guidata(fig, handles);
+        fprintf('Connect error: %s\n', CONNECT_ERROR.message);
+        
+        try
+            pause(0.01);
+            fopen(serialport);
+        catch CONNECT_ERROR
+            handles = guihandles(fig);
+            set(handles.connectbutton, 'Visible', 'on');
+            set(handles.disconnectbutton, 'Visible', 'off');
+            set(handles.status_text, 'String', 'Anslutningsfel, ger upp!');
+            guidata(fig, handles);
+            fprintf('Connect error: %s\n', CONNECT_ERROR.message);
+        end
+    end
+    
+    % Om vi har anslutning
+    if(strcmp(serialport.Status, 'open'))
+        handles = guihandles(fig);
+        set(handles.connectbutton, 'Visible', 'off');
+        set(handles.disconnectbutton, 'Visible', 'on');
+        set(handles.status_text, 'String', 'Ansluten!');
+        guidata(fig, handles);
         
         % För varje byte som kommer, kör readbytes
         serialport.BytesAvailableFcn = @readbytes;
-        
-        handles = guihandles(fig);
-        set(handles.status_text, 'String', 'Connected!');
-        guidata(fig, handles);
-
-    catch CONNECT_ERROR
-        handles = guihandles(fig);
-        set(handles.connectbutton, 'Visible', 'on');
-        set(handles.disconnectbutton, 'Visible', 'off');
-        set(handles.status_text, 'String', 'Connection error ...');
-        guidata(fig, handles);
-
-        fprintf('Connect error: %s\n', CONNECT_ERROR.message);
-    end
+    end % if
 end

@@ -1,4 +1,5 @@
 function readbytes(obj, event)
+    % Globala variabler
     global fig;
     global incoming_bytes;
     global incoming_index;
@@ -13,17 +14,20 @@ function readbytes(obj, event)
     global lh_left;
     global lh_tejp;
     global lh_gyro;
-    %new_byte = fread(obj, obj.BytesAvailable, 'uint8');
-    new_byte = fread(obj, 1, 'uint8');
+    
+    % Kontrollera så att porten är öppen, vi kan ha hunnit stänga den
+    if(strcmp(obj.Status, 'open'))
+        new_byte = fread(obj, 1, 'uint8');
+    else
+        return
+    end % if
         
     % Håller på och tar emot
     if(recieve_in_progress)
-        %disp 'Got byte';
         incoming_bytes(incoming_index) = new_byte(1);
         incoming_index = incoming_index + 1;
     % Startbit
     elseif(char(new_byte(1)) == 'S')
-        %disp 'Got a S'
         recieve_in_progress = 1;
         incoming_bytes(incoming_index) = new_byte(1);
         incoming_index = incoming_index + 1;
@@ -31,14 +35,11 @@ function readbytes(obj, event)
     elseif(char(new_byte(1)) == 'A')
         disp 'Got an A'
         got_ack = 1;
-            
-        
-        disp(toc);
     else
         recieve_in_progress = 0;
     end % if
     
-    if(incoming_index >= 16)
+    if(incoming_index >= 7)
         if(recieve_in_progress)
             history(history_index, 1:18) = transpose(incoming_bytes);
             history_index = history_index + 1;
@@ -61,7 +62,7 @@ function readbytes(obj, event)
             handles = guihandles(fig);
 
             % Uppdatera status bar
-            set(handles.status_text, 'String', sprintf('Recieved: %s', num2str(incoming_bytes)));
+            set(handles.status_text, 'String', sprintf('Tog emot: %s', num2str(incoming_bytes)));
 
             % Uppdatera GUI
             set(handles.tejp_sensor_text, 'String', num2str(incoming_bytes(2)));
